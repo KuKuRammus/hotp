@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Form\ProtectedMessageContent;
+use App\Entity\QrCodePayload;
 use App\Form\CodeMessageType;
 use App\Service\ProtectedMessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,7 +57,10 @@ final class HomeController extends AbstractController
 
             $protectedMessage = $this->protectedMessageService->create($messageContent);
 
-            return new Response("content received: ".$protectedMessage->getSecret());
+            $qrCodePayload = QrCodePayload::createFromProtectedMessage($protectedMessage);
+            $this->addFlash(QrCodePayload::class, json_encode($qrCodePayload));
+
+            return $this->redirectToRoute('code.display');
         }
 
         return $this->render('content/home.html.twig', [

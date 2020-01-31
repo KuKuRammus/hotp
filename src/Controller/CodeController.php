@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CodeController extends AbstractController
 {
     /**
-     * @Route("", methods={"GET"})
+     * @Route("", methods={"GET"}, name="code.display")
      */
     public function index() {
         return $this->render('content/code.html.twig');
