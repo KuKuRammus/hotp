@@ -2,4 +2,9 @@
 
 {% block body %}
     <h2>Code</h2>
+    <div><b>Name:</b>{{ qrPayload.name }}</div>
+    <div><b>Secret:</b>{{ qrPayload.secret }}</div>
+    <div>
+        <img src="{{ qrImage }}" alt="QR Image" />
+    </div>
 {% endblock %}

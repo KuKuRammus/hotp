@@ -11,6 +11,16 @@ final class QrCodePayload implements JsonSerializable
     private string $name;
     private string $secret;
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getSecret(): string
+    {
+        return $this->secret;
+    }
+
     public static function createFromProtectedMessage(ProtectedMessage $protectedMessage): self
     {
         return new self(

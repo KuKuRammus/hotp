@@ -30,7 +30,7 @@ final class HomeController extends AbstractController
     }
 
     /**
-     * @Route("", methods={"GET"})
+     * @Route("", methods={"GET"}, name="home.index")
      */
     public function index() {
 
@@ -60,7 +60,7 @@ final class HomeController extends AbstractController
             $qrCodePayload = QrCodePayload::createFromProtectedMessage($protectedMessage);
             $this->addFlash(QrCodePayload::class, json_encode($qrCodePayload));
 
-            return $this->redirectToRoute('code.display');
+            return $this->redirectToRoute('code.index');
         }
 
         return $this->render('content/home.html.twig', [
