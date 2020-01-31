@@ -27,9 +27,9 @@ final class RandomName
 
     public function __construct(?string $name = null)
     {
-        if ($this->name === null) {
+        if ($name === null) {
             // Generate name
-            $this->name = sprintf(
+            $name = sprintf(
                 "%s%s",
                 self::$colors[array_rand(self::$colors)],
                 self::$animals[array_rand(self::$animals)]

@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Form\ProtectedMessageContent;
 use App\Form\CodeMessageType;
+use App\Service\ProtectedMessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 final class HomeController extends AbstractController
 {
+
+    private ProtectedMessageService $protectedMessageService;
+
+    public function __construct(ProtectedMessageService $protectedMessageService)
+    {
+        $this->protectedMessageService = $protectedMessageService;
+    }
+
     /**
      * @Route("", methods={"GET"})
      */
@@ -34,20 +43,20 @@ final class HomeController extends AbstractController
 
 
     /**
-     * @param Request $request
-     *
      * @Route("", methods={"POST"})
      */
     public function createNewCode(Request $request) {
-        $codeMessage = new ProtectedMessageContent();
-        $form = $this->createForm(CodeMessageType::class, $codeMessage);
+        $messageContent = new ProtectedMessageContent();
+        $form = $this->createForm(CodeMessageType::class, $messageContent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var ProtectedMessageContent $codeMessage */
-            $codeMessage = $form->getData();
+            $messageContent = $form->getData();
 
-            return new Response("content received: ".$codeMessage->getContent());
+            $protectedMessage = $this->protectedMessageService->create($messageContent);
+
+            return new Response("content received: ".$protectedMessage->getSecret());
         }
 
         return $this->render('content/home.html.twig', [

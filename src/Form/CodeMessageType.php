@@ -14,7 +14,7 @@ class CodeMessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('message', TextareaType::class, [
+            ->add('content', TextareaType::class, [
                 'empty_data' => '',
                 'required' => true
             ])
