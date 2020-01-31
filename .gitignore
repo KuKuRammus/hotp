@@ -152,5 +152,7 @@ modules.xml
 ### Symfony Patch ###
 /web/css/
 /web/js/
+.env.*
+!.env.test
 
 # End of https://www.gitignore.io/api/symfony,composer,phpstorm+all

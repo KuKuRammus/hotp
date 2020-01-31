@@ -6,26 +6,26 @@ namespace App\Entity\Form;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CodeMessage
+class ProtectedMessageContent
 {
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="255")
      */
-    protected string $message;
+    protected string $content;
 
     public function __construct(string $message = "")
     {
-        $this->message = $message;
+        $this->content = $message;
     }
 
-    public function getMessage(): string
+    public function getContent(): string
     {
-        return $this->message;
+        return $this->content;
     }
 
-    public function setMessage(string $message): void
+    public function setContent(string $content): void
     {
-        $this->message = $message;
+        $this->content = $content;
     }
 }

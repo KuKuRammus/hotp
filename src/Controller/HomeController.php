@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Form\CodeMessage;
+use App\Entity\Form\ProtectedMessageContent;
 use App\Form\CodeMessageType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ final class HomeController extends AbstractController
      */
     public function index() {
 
-        $codeMessage = new CodeMessage();
+        $codeMessage = new ProtectedMessageContent();
         $form = $this->createForm(CodeMessageType::class, $codeMessage);
 
         return $this->render('content/home.html.twig', [
@@ -39,15 +39,15 @@ final class HomeController extends AbstractController
      * @Route("", methods={"POST"})
      */
     public function createNewCode(Request $request) {
-        $codeMessage = new CodeMessage();
+        $codeMessage = new ProtectedMessageContent();
         $form = $this->createForm(CodeMessageType::class, $codeMessage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CodeMessage $codeMessage */
+            /** @var ProtectedMessageContent $codeMessage */
             $codeMessage = $form->getData();
 
-            return new Response("content received: ".$codeMessage->getMessage());
+            return new Response("content received: ".$codeMessage->getContent());
         }
 
         return $this->render('content/home.html.twig', [
