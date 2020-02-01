@@ -1,4 +1,5 @@
 import '../css/app.scss';
 
-
-console.log('It works! Test!');
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('[EVENT] App', 'DOMContentLoaded');
+});

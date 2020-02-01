@@ -10,7 +10,15 @@ Encore
     // public path used by the web server to access the output path
     .setPublicPath('/build')
 
+    .copyFiles({
+        from: './node_modules/qr-scanner/',
+        to: 'vendor/scanner/[path][name].[ext]',
+        pattern: /\.(min.js)$/
+    })
+
     .addEntry('app', './assets/js/app.js')
+    .addEntry('scanner', './assets/js/scanner.js')
+
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
