@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Form\ProtectedMessageContent;
 use App\Entity\QrCodePayload;
-use App\Form\CodeMessageType;
+use App\Form\MessageContentType;
 use App\Service\ProtectedMessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ final class HomeController extends AbstractController
     public function index() {
 
         $codeMessage = new ProtectedMessageContent();
-        $form = $this->createForm(CodeMessageType::class, $codeMessage);
+        $form = $this->createForm(MessageContentType::class, $codeMessage);
 
         return $this->render('content/home.html.twig', [
             'form' => $form->createView()
@@ -48,7 +48,7 @@ final class HomeController extends AbstractController
      */
     public function createNewCode(Request $request) {
         $messageContent = new ProtectedMessageContent();
-        $form = $this->createForm(CodeMessageType::class, $messageContent);
+        $form = $this->createForm(MessageContentType::class, $messageContent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

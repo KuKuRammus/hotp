@@ -2,4 +2,18 @@
 
 {% block body %}
     <h2>Check {{ protectedMessage.name }}.{{ protectedMessage.id }}</h2>
+
+    {% if isFormSubmitted %}
+    <hr>
+        {% if isCodeMatches %}
+            <h4>Code valid :)</h4>
+            <div>Encoded message: {{ protectedMessageContent }}</div>
+        {% else %}
+            <h4>Code invalid :(</h4>
+        {% endif %}
+    <hr>
+    {% endif %}
+
+    <hr>
+    {{ form(form) }}
 {% endblock %}
