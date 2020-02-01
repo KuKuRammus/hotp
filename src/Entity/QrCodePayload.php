@@ -24,7 +24,7 @@ final class QrCodePayload implements JsonSerializable
     public static function createFromProtectedMessage(ProtectedMessage $protectedMessage): self
     {
         return new self(
-            sprintf("%s#%s", $protectedMessage->getName(), $protectedMessage->getId()),
+            sprintf("%s.%s", $protectedMessage->getName(), $protectedMessage->getId()),
             (string) $protectedMessage->getSecret()
         );
     }

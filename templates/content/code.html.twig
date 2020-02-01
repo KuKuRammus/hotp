@@ -7,4 +7,7 @@
     <div>
         <img src="{{ qrImage }}" alt="QR Image" />
     </div>
+    <div>
+        <a href="{{ path('check.index', { name: qrPayload.name }) }}">Go to check ></a>
+    </div>
 {% endblock %}
