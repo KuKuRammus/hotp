@@ -13,7 +13,7 @@ Encore
     .copyFiles({
         from: './node_modules/qr-scanner/',
         to: 'vendor/scanner/[path][name].[ext]',
-        pattern: /\.(min.js)$/
+        pattern: /\.(min.js|min.js.map)$/
     })
 
     .addEntry('app', './assets/js/app.js')
