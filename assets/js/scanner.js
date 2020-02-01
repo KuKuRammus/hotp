@@ -190,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load generators from local storage
     generators = loadFromLocalStorage();
-    console.log(generators);
     generators.forEach((generator) => {
         spawnGeneratorElement(generator.name);
     });
