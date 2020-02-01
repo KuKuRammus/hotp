@@ -10,7 +10,7 @@ class TimeFrameCode
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min=5, max=5, normalizer="mb_strtolower")
+     * @Assert\Length(min=5, max=5)
      */
     protected string $code;
 
@@ -21,7 +21,7 @@ class TimeFrameCode
 
     public function getCode(): string
     {
-        return $this->code;
+        return mb_strtolower($this->code);
     }
 
     public function setCode(string $code): void
