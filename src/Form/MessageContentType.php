@@ -16,8 +16,19 @@ class MessageContentType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'empty_data' => '',
-                'required' => true
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'class' => 'mb-1',
+                    'placeholder' => 'Very important message...',
+                    'autocomplete' => 'off',
+                    'autocorrect' => 'off',
+                    'autocapitalize' => 'off',
+                    'spellcheck' => 'off'
+                ]
             ])
-            ->add('create', SubmitType::class);
+            ->add('create', SubmitType::class, [
+                'label' => 'Hide message'
+            ]);
     }
 }

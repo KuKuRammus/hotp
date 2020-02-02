@@ -10,7 +10,7 @@ class ProtectedMessageContent
 {
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min="5", max="255")
+     * @Assert\Length(max="255")
      */
     protected string $content;
 
