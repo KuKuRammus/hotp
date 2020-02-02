@@ -1,6 +1,5 @@
-import QrScanner from "qr-scanner";
+import jsQR from "jsqr";
 import crypto from 'crypto'
-QrScanner.WORKER_PATH = '/build/vendor/scanner/qr-scanner-worker.min.js';
 
 const GENERATORS_STORE_KEY = 'generators';
 const TIME_FRAME_DURATION = 30;
@@ -13,12 +12,12 @@ const elements = {
     shutdownScanControl: null,
     cameraFeedWrapper: null,
     cameraFeed: null,
-    generatorList: null
+    cameraFeedContext: null,
+    generatorList: null,
+    video: null
 };
 
 let generators = [];
-
-let qrScanner = null;
 
 
 function persistToLocalStorage() {
@@ -111,44 +110,68 @@ function handleValidQrDetected(name, secret) {
 }
 
 function shutdownScanner() {
-    if (qrScanner === null) {
-        return;
-    }
+    elements.video.pause();
+    elements.video.removeAttribute('src');
+    elements.video.load();
 
     // Switch controls
     elements.initScanControl.style.display = 'block';
     elements.shutdownScanControl.style.display = 'none';
     elements.cameraFeedWrapper.style.display = 'none';
+}
 
-    qrScanner.stop();
-    qrScanner.destroy();
+function processCameraFrame() {
+    if (elements.video.readyState === elements.video.HAVE_ENOUGH_DATA) {
+        elements.cameraFeedContext.drawImage(
+            elements.video,
+            0, 0,
+            elements.cameraFeed.width, elements.cameraFeed.height,
+            0, 0,
+            elements.cameraFeed.width, elements.cameraFeed.height,
+        );
+        const imageData = elements.cameraFeedContext.getImageData(
+            0, 0,
+            elements.cameraFeed.width, elements.cameraFeed.height
+        );
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert"
+        });
+
+        if (code) {
+            try {
+                const decoded = JSON.parse(code.data);
+                if (!('name' in decoded) || !('secret' in decoded)) {
+                    throw 'Invalid QR code';
+                }
+                handleValidQrDetected(decoded['name'], decoded['secret']);
+                return shutdownScanner();
+            } catch (e) {
+                alert('Invalid QR code');
+            }
+        }
+    }
+
+    requestAnimationFrame(processCameraFrame);
 }
 
 function initScanner() {
-    if (qrScanner !== null) {
-        shutdownScanner();
-    }
-
     // Switch controls
     elements.initScanControl.style.display = 'none';
     elements.shutdownScanControl.style.display = 'block';
     elements.cameraFeedWrapper.style.display = 'block';
 
-    // Start scanner
-    qrScanner = new QrScanner(elements.cameraFeed, (result) => {
-        try {
-            const decoded = JSON.parse(result);
-            if (!('name' in decoded) || !('secret' in decoded)) {
-                throw 'Invalid QR code';
-            }
-            handleValidQrDetected(decoded['name'], decoded['secret']);
-            shutdownScanner();
-        } catch (e) {
-            alert('Invalid QR code');
-        }
-    });
-    qrScanner.start();
+    elements.cameraFeed.width = Math.floor(window.innerWidth * 0.5);
+    elements.cameraFeed.height = Math.floor(window.innerWidth * 0.5);
 
+    // Start receiving frames
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then((stream) => {
+            elements.video.srcObject = stream;
+            elements.video.setAttribute("playsinline", true);
+            elements.video.setAttribute("muted", true);
+            elements.video.play();
+            requestAnimationFrame(processCameraFrame);
+        })
 }
 
 function startCodeGeneration() {
@@ -177,7 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.shutdownScanControl = document.getElementById('shutdown-scan-control');
     elements.cameraFeedWrapper = document.getElementById('camera-feed-wrapper');
     elements.cameraFeed = document.getElementById('camera-feed');
+    elements.cameraFeedContext = elements.cameraFeed.getContext('2d');
     elements.generatorList = document.getElementById('generator-list');
+    elements.video = document.createElement('video');
 
     // Set initial DOM elements state
     elements.initScanControl.style.display = 'block';

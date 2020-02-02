@@ -10,12 +10,6 @@ Encore
     // public path used by the web server to access the output path
     .setPublicPath('/build')
 
-    .copyFiles({
-        from: './node_modules/qr-scanner/',
-        to: 'vendor/scanner/[path][name].[ext]',
-        pattern: /\.(min.js|min.js.map)$/
-    })
-
     .addEntry('app', './assets/js/app.js')
     .addEntry('scanner', './assets/js/scanner.js')
 
