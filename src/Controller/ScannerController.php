@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ScannerController extends AbstractController
 {
     /**
-     * @Route("", methods={"GET"})
+     * @Route("", methods={"GET"}, name="scanner.index")
      */
     public function index() {
         return $this->render('content/scanner.html.twig');

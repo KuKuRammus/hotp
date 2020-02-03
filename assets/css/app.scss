@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
 
 $size-base: 16px;
 
@@ -56,6 +57,25 @@ h1 {
     margin: 4rem auto;
 }
 
+p {
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+}
+
+a {
+    color: $color-accent;
+    text-decoration: none;
+    transition: .15s color;
+
+    &:hover {
+        color: darken($color-accent, 10);
+    }
+
+    &:active {
+        color: darken($color-accent, 20);
+    }
+}
+
 .tile {
     padding: 1.25rem;
 
@@ -68,7 +88,12 @@ h1 {
     }
 }
 
-button {
+.code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: $font-weight-regular;
+}
+
+button, .button {
     font-family: inherit;
     border: 0;
     outline: 0;
@@ -76,12 +101,14 @@ button {
     display: block;
     width: 100%;
     padding: 1.43rem 0;
-    color: $color-font-light;
+    color: $color-font-light !important;
     font-size: 0.88rem;
     text-transform: uppercase;
     cursor: pointer;
     transition: .15s background-color;
     font-weight: $font-weight-medium;
+    text-align: center;
+    text-decoration: none;
 
     &:hover {
         background-color: darken($color-accent, 10);

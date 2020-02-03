@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\QrCodePayload;
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,13 @@ final class CodeController extends AbstractController
         }
 
         $qrCodePayload = QrCodePayload::createFromJson($input[0]);
-        $qrCodeImage = (new QRCode())->render(json_encode($qrCodePayload));
+        $qrOptions = new QROptions(
+            [
+                'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+                'quietzoneSize' => 0
+            ]
+        );
+        $qrCodeImage = (new QRCode($qrOptions))->render(json_encode($qrCodePayload));
 
         return $this->render('content/code.html.twig', [
             'qrPayload' => $qrCodePayload,

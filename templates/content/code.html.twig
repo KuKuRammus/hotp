@@ -1,13 +1,25 @@
 {% extends 'layout/base.html.twig' %}
 
 {% block body %}
-    <h2>Code</h2>
-    <div><b>Name:</b>{{ qrPayload.name }}</div>
-    <div><b>Secret:</b>{{ qrPayload.secret }}</div>
-    <div>
-        <img src="{{ qrImage }}" alt="QR Image" />
+    <h1 class="mb-3">2. Scan</h1>
+
+    <div class="tile tile-bg-gray tile-padding-extra-top mb-2">
+        <p>Content of your message now only accessible by using one time password, which constantly refreshes</p>
+        <p>On your phone, go to URL below:</p>
+        <p>
+            <a href="{{ url('scanner.index') }}" target="_blank">{{ url('scanner.index') }}</a>
+        </p>
+        <p>And scan this QR code:</p>
     </div>
-    <div>
-        <a href="{{ path('check.index', { name: qrPayload.name }) }}">Go to check ></a>
+
+    <div class="tile mb-1">
+        <div class="code mb-1">Code ID: {{ qrPayload.name }}</div>
+        {{ qrImage|raw }}
+    </div>
+
+    <div class="tile">
+        <a href="{{ path('check.index', { name: qrPayload.name }) }}" class="button">
+            I'm done. Go to code check
+        </a>
     </div>
 {% endblock %}
