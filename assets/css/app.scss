@@ -4,7 +4,7 @@
 $size-base: 16px;
 
 $color-bg: #fff;
-$color-gray: #f0f0f0;
+$color-gray: #F6F6F6;
 $color-error: #f5d5db;
 $color-accent: #3EC3AB;
 $color-font-dark: #191F25;
@@ -105,7 +105,7 @@ a {
     }
 
     &.tile-padding-extra-top {
-        padding: 3.12rem 1.25rem 1.25rem;
+        padding: 2.5rem 1.25rem 1.25rem;
     }
 }
 
@@ -148,11 +148,11 @@ button, .button {
     }
 
     &:hover {
-        background-color: darken($color-accent, 10);
+        background-color: lighten($color-accent, 10);
     }
 
     &:active {
-        background-color: darken($color-accent, 20);
+        background-color: $color-accent
     }
 }
 
@@ -191,7 +191,7 @@ form {
         }
 
         &:focus {
-            border-color: darken($color-gray, 10);
+            border-color: $color-accent
         }
     }
 
@@ -212,7 +212,7 @@ form {
         }
 
         &:focus {
-            border-color: darken($color-gray, 10);
+            border-color: $color-accent
         }
     }
 }
