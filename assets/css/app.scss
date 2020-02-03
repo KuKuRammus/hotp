@@ -119,10 +119,41 @@ button, .button {
     }
 }
 
+b {
+    font-weight: $font-weight-medium;
+}
+
+div > p:last-child {
+    margin-bottom: 0;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
 form {
     ul {
         padding: 1.25rem;
         background-color: $color-error;
+    }
+
+    input[type="text"] {
+        font-family: inherit;
+        font-size: inherit;
+        width: 100%;
+        padding: 1.25rem;
+        box-sizing: border-box;
+        outline: 0;
+        border: 1px solid $color-gray;
+        transition: .15s border-color;
+
+        &:hover {
+            border-color: darken($color-gray, 10);
+        }
+
+        &:focus {
+            border-color: darken($color-gray, 10);
+        }
     }
 
     textarea {
@@ -144,6 +175,5 @@ form {
         &:focus {
             border-color: darken($color-gray, 10);
         }
-
     }
 }

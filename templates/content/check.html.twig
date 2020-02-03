@@ -1,19 +1,30 @@
 {% extends 'layout/base.html.twig' %}
 
 {% block body %}
-    <h2>Check {{ protectedMessage.name }}.{{ protectedMessage.id }}</h2>
+    <h1 class="mb-3">3. Check code</h1>
+
+    <div class="tile tile-bg-gray tile-padding-extra-top mb-2">
+        <p>To get message content, enter current code (labeled as `{{ protectedMessage.name }}.{{ protectedMessage.id }}` in scanner) below:</p>
+    </div>
 
     {% if isFormSubmitted %}
-    <hr>
         {% if isCodeMatches %}
-            <h4>Code valid :)</h4>
-            <div>Encoded message: {{ protectedMessageContent }}</div>
+            <div class="tile tile-bg-gray">
+                <p>Success. Message content:</p>
+                <p><b>{{ protectedMessageContent }}</b></p>
+            </div>
         {% else %}
-            <h4>Code invalid :(</h4>
+            <div class="tile tile-bg-gray">
+                <p><b>Uh oh...</b></p>
+                <p>Invalid or expired code</p>
+            </div>
         {% endif %}
-    <hr>
     {% endif %}
 
-    <hr>
     {{ form(form) }}
+
+    <div class="tile text-align-center">
+        <div class="mb-1"></div>
+        <a href="{{ path('home.index') }}">Create another message</a>
+    </div>
 {% endblock %}

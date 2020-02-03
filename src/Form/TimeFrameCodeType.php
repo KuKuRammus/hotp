@@ -16,8 +16,17 @@ class TimeFrameCodeType extends AbstractType
         $builder
             ->add('code', TextType::class, [
                 'empty_data' => '',
-                'required' => true
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'ABC12',
+                    'class' => 'mb-1',
+                    'maxlength' => 5,
+                    'size' => 5
+                ]
             ])
-            ->add('check', SubmitType::class);
+            ->add('check', SubmitType::class, [
+                'label' => 'Get message content'
+            ]);
     }
 }
