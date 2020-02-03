@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500&display=swap');
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,500&display=swap');
 
 $size-base: 16px;
 
@@ -9,6 +9,7 @@ $color-error: #f5d5db;
 $color-accent: #3EC3AB;
 $color-font-dark: #191F25;
 $color-font-light: #fff;
+$color-danger: #EB5757;
 
 $font-weight-regular: 400;
 $font-weight-medium: 500;
@@ -75,6 +76,18 @@ a {
     text-decoration: none;
     transition: .15s color;
 
+    &.danger {
+        color: $color-danger;
+
+        &:hover {
+            color: darken($color-danger, 10);
+        }
+
+        &:active {
+            color: darken($color-danger, 20);
+        }
+    }
+
     &:hover {
         color: darken($color-accent, 10);
     }
@@ -99,6 +112,12 @@ a {
 .code {
     font-family: 'IBM Plex Mono', monospace;
     font-weight: $font-weight-regular;
+
+    &.otp {
+        font-size: 1.25rem;
+        font-weight: $font-weight-medium;
+        margin-right: 1.1rem;
+    }
 }
 
 button, .button {
@@ -117,6 +136,16 @@ button, .button {
     font-weight: $font-weight-medium;
     text-align: center;
     text-decoration: none;
+
+    &.minimal {
+        display: inline-block;
+        font-weight: $font-weight-regular;
+        color: $color-accent !important;
+        background-color: $color-bg;
+        border: 1px solid $color-accent;
+        padding: 0.5rem 1.31rem;
+        width: auto;
+    }
 
     &:hover {
         background-color: darken($color-accent, 10);

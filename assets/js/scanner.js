@@ -14,7 +14,9 @@ const elements = {
     cameraFeed: null,
     cameraFeedContext: null,
     generatorList: null,
-    video: null
+    video: null,
+    videoSizeElement: 0,
+    videoStream: null
 };
 
 let generators = [];
@@ -54,8 +56,8 @@ function addGenerator(name, secret) {
 }
 
 function updateGeneratorElementData(element, code, timeTillNextFrame) {
-    element.querySelector('.code').innerText = code.toUpperCase();
-    element.querySelector('.timeTillNextCode').innerText = `${timeTillNextFrame} s.`
+    element.querySelector('.otp').innerText = code.toUpperCase();
+    element.querySelector('.timeTillNextCode').innerText = `${timeTillNextFrame}s`
 }
 
 function destroyGeneratorElement(name) {
@@ -73,16 +75,21 @@ function spawnGeneratorElement(name) {
     // Create dom element
     const element = document.createElement('div');
     element.id = name;
+    element.className = 'tile mb-1 tile-bg-gray';
     element.innerHTML = `
-        <div><b>${name}</b></div>
-        <div><h3 class="code" style="font-family: monospace"></h3></div>
-        <div>Next code in: <span class="timeTillNextCode">0</span></div>
-        <div><button class="remove-control">Remove</button></div>
-        <hr />
+        <p class="code">${name}</p>
+        <p>
+            <b class="code otp"></b>
+            <span style="opacity: 0.3">Next code in: <span class="timeTillNextCode">0</span></span>
+        </p>
+        <div><h3 class="otp" style="font-family: monospace"></h3></div>
+        <a href="#" class="remove-control danger">Remove</a>
     `;
 
     // Add ability to remove element
-    element.querySelector('.remove-control').addEventListener('click', () => {
+    element.querySelector('.remove-control').addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         destroyGeneratorElement(name);
     });
 
@@ -111,6 +118,7 @@ function handleValidQrDetected(name, secret) {
 
 function shutdownScanner() {
     elements.video.pause();
+    elements.video.srcObject.getTracks()[0].stop();
     elements.video.removeAttribute('src');
     elements.video.load();
 
@@ -160,8 +168,8 @@ function initScanner() {
     elements.shutdownScanControl.style.display = 'block';
     elements.cameraFeedWrapper.style.display = 'block';
 
-    elements.cameraFeed.width = Math.floor(window.innerWidth * 0.5);
-    elements.cameraFeed.height = Math.floor(window.innerWidth * 0.5);
+    elements.cameraFeed.width = elements.videoSizeElement.clientWidth;
+    elements.cameraFeed.height = elements.videoSizeElement.clientWidth;
 
     // Start receiving frames
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
@@ -203,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.cameraFeedContext = elements.cameraFeed.getContext('2d');
     elements.generatorList = document.getElementById('generator-list');
     elements.video = document.createElement('video');
+    elements.videoSizeElement = document.getElementById('camera-view-width');
 
     // Set initial DOM elements state
     elements.initScanControl.style.display = 'block';
